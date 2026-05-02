@@ -1,0 +1,14 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.eranimore/surf-session-finder",
+  "title": "Surf Session Finder",
+  "description": "Surf park sessions schedule availability and notifications for wave park surfers worldwide",
+  "version": "1.0.0",
+  "websiteUrl": "https://www.surfsessionfinder.com",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://ssf-api-cf.surfsessionfinder.com/mcp"
+    }
+  ]
+}
