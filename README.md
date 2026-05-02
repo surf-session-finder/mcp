@@ -1,16 +1,74 @@
 # Surf Session Finder MCP Server
 
-Find available surf pool sessions worldwide — directly from your AI assistant.
+> Surf park session availability notifications worldwide — powered by [Surf Session Finder](https://www.surfsessionfinder.com).
 
-## What it does
+This is a **remote, hosted** Model Context Protocol (MCP) server. There is nothing to install or run locally — you connect your MCP client directly to our HTTPS endpoint.
 
-This MCP server gives AI assistants real-time access to session availability at 10+ wave pools across 5 continents. Ask questions like:
+---
 
-- *"Are there any beginner sessions at Urbnsurf Sydney this weekend?"*
-- *"Find sessions with at least 2 available spots at The Wave Bristol"*
-- *"What skill levels are available at SRF Park Tel Aviv?"*
+## Features
 
-Powered by [Surf Session Finder](https://www.surfsessionfinder.com) — served from Cloudflare's edge network for fast, low-latency responses worldwide.
+- 🏄 **Browse 10+ wave pools** across 5 continents
+- 🔍 **Find available sessions** filtered by skill level, available spots, and time window
+- 📋 **List skill levels** per pool (Beginner, Intermediate, Advanced, etc.)
+- 🌐 **No authentication required** — no API keys, no sign-in
+- ⚡ **Served from Cloudflare's edge network** for fast, low-latency responses worldwide
+
+## Tools
+
+| Tool | Description |
+|------|-------------|
+| `list_pools` | List all supported surf pools with IDs and locations |
+| `get_session_levels` | Get skill levels available at a pool |
+| `find_sessions` | Find available sessions — filter by level, spots, and time window |
+
+## Endpoints
+
+| Purpose | URL |
+|---------|-----|
+| MCP endpoint (HTTP transport) | `https://ssf-api-cf.surfsessionfinder.com/mcp` |
+| Discovery manifest | `https://www.surfsessionfinder.com/.well-known/mcp.json` |
+
+---
+
+## Installation
+
+### Claude Desktop / Claude.ai
+
+Add a custom connector pointing at:
+
+```
+https://ssf-api-cf.surfsessionfinder.com/mcp
+```
+
+### Cursor / Windsurf / Other MCP clients with remote-server support
+
+```json
+{
+  "mcpServers": {
+    "surf-session-finder": {
+      "url": "https://ssf-api-cf.surfsessionfinder.com/mcp"
+    }
+  }
+}
+```
+
+### Clients that only support stdio (e.g. older Claude Desktop versions)
+
+Use [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) as a bridge:
+
+```json
+{
+  "mcpServers": {
+    "surf-session-finder": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://ssf-api-cf.surfsessionfinder.com/mcp"]
+    }
+  }
+}
+```
+
+---
 
 ## Supported pools
 
@@ -27,37 +85,23 @@ Powered by [Surf Session Finder](https://www.surfsessionfinder.com) — served f
 | SRF Park Tel Aviv | Tel Aviv, Israel |
 | SurflandBrasil | Garopaba, Brazil |
 
-## Installation
+---
 
-**HTTP-native clients** (Claude Desktop, Cursor, Windsurf):
+## Example prompts
 
-Add a new MCP server pointing at:
-```
-https://ssf-api-cf.surfsessionfinder.com/mcp
-```
+Once connected, try asking your AI assistant:
 
-**stdio clients** (via `mcp-remote` bridge):
+- *"Are there any beginner sessions at Urbnsurf Sydney this weekend?"*
+- *"Find sessions with at least 2 available spots at The Wave Bristol."*
+- *"What skill levels are available at SRF Park Tel Aviv?"*
+- *"List all surf pools in the USA."*
 
-```json
-{
-  "mcpServers": {
-    "surf-session-finder": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote", "https://ssf-api-cf.surfsessionfinder.com/mcp"]
-    }
-  }
-}
-```
+## Use cases
 
-No authentication required. No API keys. No local setup.
-
-## Tools
-
-| Tool | Description |
-|------|-------------|
-| `list_pools` | List all supported surf pools with IDs and locations |
-| `get_session_levels` | Get skill levels available at a pool (Beginner, Intermediate, etc.) |
-| `find_sessions` | Find available sessions — filter by level, spots, and time window |
+- Planning a surf trip around session availability
+- Monitoring wave pool bookings across multiple locations
+- Building alerts or summaries for surf communities
+- Integrating live session data into travel or sports apps
 
 ## Verification
 
@@ -65,7 +109,13 @@ After installing, ask your assistant: *"List the Surf Session Finder tools."*
 
 It should report: `list_pools`, `get_session_levels`, `find_sessions`.
 
-## Links
+## Support
 
-- Website: [surfsessionfinder.com](https://www.surfsessionfinder.com)
-- MCP endpoint: `https://ssf-api-cf.surfsessionfinder.com/mcp`
+- 📧 Email: feedback@surfsessionfinder.com
+- 🌐 Contact: https://www.surfsessionfinder.com/contact/
+- 🌐 Website: https://www.surfsessionfinder.com
+
+## License
+
+This documentation repository is published under the MIT License.
+The Surf Session Finder service itself is governed by the [Surf Session Finder Terms of Service](https://www.surfsessionfinder.com/terms/).
